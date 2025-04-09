@@ -13,6 +13,3 @@ This app analyzes your UPI transaction PDFs and gives smart, AI-generated insigh
 1. Upload your UPI transaction PDF
 2. Click “Analyze”
 3. View cleaned data and AI-generated summary instantly!
-
-## 🤝 Credits
-Developed as part of an AI journey at **Sathyabama Institute of Science & Technology**, in collaboration with **NeubAItics Tech Pvt Ltd**.
