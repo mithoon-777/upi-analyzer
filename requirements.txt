@@ -1,0 +1,5 @@
+gradio
+pandas
+PyMuPDF
+transformers
+torch
