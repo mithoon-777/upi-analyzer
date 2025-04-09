@@ -1,0 +1,4 @@
+gradio
+pandas
+PyMuPDF
+google-generativeai
