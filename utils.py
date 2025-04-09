@@ -1,32 +1,23 @@
-import fitz  # PyMuPDF
-import pandas as pd
-import re
-from transformers import pipeline
+import google.generativeai as genai
 
-summarizer = pipeline("text2text-generation", model="google/flan-t5-base")
+# Replace with your actual API key or load from env
+genai.configure(api_key="YOUR_GEMINI_API_KEY")
 
-def extract_text_from_pdf(pdf_file):
-    doc = fitz.open(stream=pdf_file.read(), filetype="pdf")
-    text = ""
-    for page in doc:
-        text += page.get_text()
-    return text
-
-def clean_and_parse(text):
-    pattern = re.compile(r"(\d{2}-\d{2}-\d{4}).*?to\s(.*?).*?Rs\.\s?([0-9,]+.\d{2})", re.IGNORECASE)
-    matches = pattern.findall(text)
-
-    data = []
-    for match in matches:
-        date, receiver, amount = match
-        amount = float(amount.replace(',', ''))
-        data.append([date, receiver.strip(), amount])
-
-    df = pd.DataFrame(data, columns=["Date", "To", "Amount"])
-    return df
+model = genai.GenerativeModel("gemini-pro")
 
 def analyze_transactions(df):
     text = df.to_string(index=False)
-    prompt = f"Analyze the following transaction table and give a summary with top spending categories and saving tips:\n{text}"
-    result = summarizer(prompt, max_length=512, do_sample=False)
-    return result[0]['generated_text']
+
+    prompt = f"""
+    You are a financial assistant. Analyze the following UPI transactions:
+    
+    {text}
+    
+    Provide:
+    - Top 3 spending categories
+    - Any wasteful or unusual expenses
+    - Smart suggestions to save money next month
+    """
+
+    response = model.generate_content(prompt)
+    return response.text
