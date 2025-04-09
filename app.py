@@ -8,7 +8,7 @@ def full_analysis(pdf):
     return df, insights
 
 with gr.Blocks() as demo:
-    gr.Markdown("# 🧠 UPI Usage & Financial Analyzer using LLMs")
+    gr.Markdown("# UPI Usage & Financial Analyzer using LLMs")
     file_input = gr.File(label="Upload UPI PDF")
     btn = gr.Button("Analyze")
     df_output = gr.DataFrame()
